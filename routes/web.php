@@ -27,6 +27,7 @@ Route::resources([
     'item' => App\Http\Controllers\ItemController::class,
 ]);
 
+Route::get('/item/search', [App\Http\Controllers\ItemController::class, 'search']);
 Route::delete('/item/{id}/image', [App\Http\Controllers\ItemController::class, 'destroyImage']);
 Route::delete('/item/{item_id}/tag/{tag_id}', [App\Http\Controllers\ItemController::class, 'destroyTag']);
 Route::post('/item/{id}/image', [App\Http\Controllers\ItemController::class, 'updateImage']);
