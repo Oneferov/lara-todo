@@ -14,6 +14,15 @@ class Item extends Model
         'text'
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope('user', function ($query) {
+            if($user = auth()->user()) 
+                $query->where('user_id', $user->id);
+        });
+    }
+
     public function image()
     {
         return $this->hasOne(Image::class);

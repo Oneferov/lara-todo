@@ -10,7 +10,7 @@
                     <textarea name="text" id="input_text" class="form-control" placeholder="Введите текст"></textarea>
                 </div>
                 <div class="mb-3">
-                    <input name="tag" id="input_tag" class="form-control" type="text" placeholder="Введите теги">
+                    <input name="tag" id="input_tag" class="form-control" type="text" placeholder="Введите несколько тегов">
                 </div>
                 <div class="input-group mb-3">
                     <input name="image" type="file" accept="image/*" class="form-control" id="image">
