@@ -14,21 +14,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-// Route::post('item', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/item/search', [App\Http\Controllers\ItemController::class, 'search']);
+    Route::delete('/item/{id}/image', [App\Http\Controllers\ItemController::class, 'destroyImage']);
+    Route::delete('/item/{item_id}/tag/{tag_id}', [App\Http\Controllers\ItemController::class, 'destroyTag']);
+    Route::post('/item/{id}/image', [App\Http\Controllers\ItemController::class, 'updateImage']);
+    Route::post('/item/{id}/tag', [App\Http\Controllers\ItemController::class, 'storeTag']);
 
-
-Route::resources([
-    'item' => App\Http\Controllers\ItemController::class,
-]);
-
-Route::get('/item/search', [App\Http\Controllers\ItemController::class, 'search']);
-Route::delete('/item/{id}/image', [App\Http\Controllers\ItemController::class, 'destroyImage']);
-Route::delete('/item/{item_id}/tag/{tag_id}', [App\Http\Controllers\ItemController::class, 'destroyTag']);
-Route::post('/item/{id}/image', [App\Http\Controllers\ItemController::class, 'updateImage']);
-Route::post('/item/{id}/tag', [App\Http\Controllers\ItemController::class, 'storeTag']);
+    Route::resource('item', App\Http\Controllers\ItemController::class)->except(['edit', 'create']);
+});

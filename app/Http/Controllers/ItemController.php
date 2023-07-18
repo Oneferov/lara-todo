@@ -8,7 +8,6 @@ use App\Repositories\ItemRepository;
 use App\Services\ItemService;
 
 
-
 class ItemController extends Controller
 {
 
@@ -25,7 +24,7 @@ class ItemController extends Controller
      */
     public function index()
     {
-        $items = $this->repository->getQuery()->orderBy('id', 'DESC')->get();
+        $items = $this->repository->getQuery()->get();
         return view('home', compact('items'));
     }
 
@@ -47,11 +46,7 @@ class ItemController extends Controller
      */
     public function store(ItemStoreRequest $request)
     {
-        $model = $this->service->create($request->all());
-
-        // $model = $this->repository->getOneById($model->id);
-
-        return response()->json(['model' => $model, 'image' => $model->image, 'tags' => $model->tags]);
+        return response()->json(['model' => $this->service->create($request->all())]);
     }
 
     /**
@@ -88,18 +83,12 @@ class ItemController extends Controller
     {
         $result = $this->repository->update($request->all(), $id);
 
-        if ($result) {
-            $model = $this->repository->getOneById($id);
-            return response()->json([
-                'success' => true,
-                'model' => $model,
-                'image' => $model->image,
-            ]);
-        }else {
-            return response()->json([
-                'success' => false
-            ]);
-        }
+        $success = false;
+        if ($result) $success = true;
+
+        return response()->json([
+            'success' => $success
+        ]);
     }
 
     public function updateImage(Request $request, $id)
@@ -125,7 +114,7 @@ class ItemController extends Controller
      */
     public function destroy($id)
     {
-        return response()->json(['success' => $this->service->destroy($id)]);
+        return response()->json($this->service->destroy($id));
     }
 
     public function destroyImage($id)
@@ -135,7 +124,7 @@ class ItemController extends Controller
 
     public function destroyTag($item_id, $tag_id)
     {
-        return response()->json(['success' => $this->service->destroyTag($item_id, $tag_id)]);
+        return response()->json($this->service->destroyTag($item_id, $tag_id));
     }
 
     public function storeTag(Request $request, $item_id)
@@ -152,5 +141,17 @@ class ItemController extends Controller
                 'tags' => $result,
             ]);
         }
+    }
+
+    public function search(Request $request) 
+    {   
+        if (!$request->all()['value']) 
+            $result = $this->repository->getQuery()->get();
+        else 
+            $result = $this->repository->getAllWithTags($request->all()['value']);
+                
+        return response()->json([
+            'items' => $result,
+        ]);
     }
 }

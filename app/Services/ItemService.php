@@ -26,15 +26,13 @@ class ItemService
     {   
         $model = $this->repository->create($data);
 
-        if (isset($data['image'])) {
+        if (isset($data['image'])) 
             $this->imageService->create($data['image'], $model);
-        }
 
-        if (isset($data['tag'])) {
+        if (isset($data['tag'])) 
             $this->tagService->create($data['tag'], $model);
-        };
 
-        return $model;
+        return $this->repository->getOneById($model->id);
     }
 
     public function destroy($id)
@@ -45,10 +43,21 @@ class ItemService
 
             if ($item->image) 
                 $this->imageService->delete($item->image);
+
+            $is_last = [];
+            if (count($item->tags)) {
+                foreach ($item->tags as $tag) {
+                    $result = $this->tagService->delete($item, $tag->id);
+                    if ($result['success']) array_push($is_last, $tag->id);
+                }
+            }
             
             $this->repository->delete($id);
             DB::commit();
-            return true;
+            return [
+                'success' => true,
+                'is_last' => $is_last
+            ];
         } catch (\Exception $e) {
             DB::rollback();
             Log::error($e->getMessage());
@@ -90,7 +99,6 @@ class ItemService
     public function destroyTag($item_id, $tag_id)
     {
         $model = $this->repository->getOneById($item_id);
-
         return $this->tagService->delete($model, $tag_id);
     }
 }

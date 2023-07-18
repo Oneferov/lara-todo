@@ -6,3 +6,118 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+
+.list-group-item {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 2rem !important;
+
+    border: 1px solid #5353f3 !important;
+    border-radius: 10px;
+    margin-bottom: 10px;
+
+}
+.list-group-item img {
+    width: 150px;
+    height: 150px;
+}
+.list-group-item .destroy-item {
+    position: absolute;
+    left: 0%;
+    cursor: pointer;
+    color: red;
+    font-size: 2rem;
+}
+.modal-alert-danger {
+    color: red;
+}
+.action {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.action button {
+    display: block;
+}
+.card-right {
+    display: flex;
+    gap: 1rem;
+}
+.image-block {
+    position: relative;
+}
+.image-block span {
+    position: absolute;
+    left: 80%;
+    cursor: pointer;
+    color: red;
+    font-size: 2rem;
+}
+#image-preview {
+    display: none;
+}
+.upload-image {
+    width: 150px;
+    height: 150px;
+}
+.upload-link {
+    color: #36c;
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+    text-decoration: none;
+    text-align: center;
+    transform: translateY(100%);
+}
+.upload-link__inp {
+    top: -10px;
+    right: -40px;
+    z-index: 2;
+    position: absolute;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    font-size: 50px;
+}
+.tags .tag {
+    border: 1px solid #8f520a;
+    border-radius: 10px;
+    padding: 0 5px 0 10px;
+    background: #ffd200;
+    color: #8f520a;
+}
+.tag-remove {
+    font-weight: bold;
+    margin-left: 5px;
+    color: #bb0808;
+    cursor: pointer;
+}
+.tag-add {
+    font-size: 22px;
+    font-weight: bold;
+    color:green;
+    cursor: pointer;
+}
+.tag {
+    display: inline-block;
+    margin: 1px;
+}
+.card-left {
+    width: 100%;
+}
+.input-tag:focus {
+    outline: none;
+}
+.input-tag {
+    background: #ffd200;
+    border: none;
+    width: 70px;
+}
+.search-tag {
+    margin-bottom: 1rem;
+}
+.all_tags .tag {
+    cursor: pointer;
+}

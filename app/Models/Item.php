@@ -23,6 +23,4 @@ class Item extends Model
     {
         return $this->belongsToMany(Tag::class)->orderBy('id', 'DESC');
     }
-
-    protected $append = ['tags'];
 }

@@ -32,9 +32,6 @@ class TagService
                     $item->tags()->attach($model);
                 }
             }
-
-            // $model = $this->repository->create(['title' => $tag]);
-            // $item->tags()->attach($model);
         }
 
         return $new_tags;
@@ -45,10 +42,28 @@ class TagService
         try {
             $model = $this->repository->getOneById($id);
             $item->tags()->detach($model);
-            return true;
+
+            $is_last = [];
+            if ($this->checkIsLast($id)) {
+                array_push($is_last, $id);
+                $this->repository->delete($id);
+            }
+                
+            return [
+                'success' => true,
+                'is_last' => $is_last
+            ];
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            return false;
+            return ['success' => false];
         }
+    }
+
+    public function checkIsLast($id)
+    {
+        if (!\DB::table('item_tag')->where('tag_id', $id)->first())
+            return true;
+
+        return false;
     }
 }
