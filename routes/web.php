@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    if (Illuminate\Support\Facades\Auth::check())
+        return redirect()->route('item.index');
     return view('auth.login');
 });
 
